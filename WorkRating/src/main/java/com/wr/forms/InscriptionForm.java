@@ -30,13 +30,28 @@ public class InscriptionForm {
 		Utilisateurs utilisateur = new Utilisateurs();
 		
 		try {
-			
+			validationNom(nom);
 		} catch (Exception e) {
-			// TODO: handle exception
+			setErreur(CHAMP_NOM, e.getMessage());
 		}
 		
+		utilisateur.setNom(nom);
 		
-		return null;
+		try {
+			validationMotDePasse(motDePasse, confirmation);
+		} catch (Exception e) {
+			setErreur(CHAMP_PASS, e.getMessage());
+			setErreur(CHAMP_CONF, null);
+		}
+		utilisateur.setMotDePasse(motDePasse);
+		
+		if(erreurs.isEmpty()) {
+			resultat = "succès de l'inscriprtion";
+		} else {
+			resultat = "Echec de l'inscription";
+		}
+		
+		return utilisateur;
 	}
 	
 	private void validationNom(String nom) throws Exception {
@@ -47,6 +62,22 @@ public class InscriptionForm {
 		}else {
 			throw new Exception("Merci d'entrer un nom d'utilisateur.");
 		}
+	}
+	
+	private void validationMotDePasse(String motDePasse, String confirmation) throws Exception {
+		if(motDePasse != null && confirmation !=null) {
+			if(motDePasse.equals(confirmation)) {	
+				throw new Exception("Les mots de passe entrés sont différents, merci de les saisir à nouveau.");
+			}else if(motDePasse.length()<3) {
+				throw new Exception("Les mots de passe doivent contenir au moins 3 caractères.");
+			}
+		} else {
+			throw new Exception("Merci de saisir et confirmer votre mot de passe.");
+		}
+	}
+	
+	private void setErreur(String champ, String message) {
+		erreurs.put(champ, message);
 	}
 	
 	private static String getValeurChamp(HttpServletRequest request, String nomChamp) {

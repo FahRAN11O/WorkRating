@@ -76,6 +76,11 @@ public class InscriptionForm {
 		}
 	}
 	
+	
+	private void validationEmail(String email) {
+		//
+	}
+	
 	private void setErreur(String champ, String message) {
 		erreurs.put(champ, message);
 	}

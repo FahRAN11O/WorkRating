@@ -6,6 +6,13 @@ public class Utilisateurs {
 	private String nom;
 	private String motDePasse;
 	private List<Evaluations> evaluations;
+	private String email;
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
 	public String getNom() {
 		return nom;
 	}

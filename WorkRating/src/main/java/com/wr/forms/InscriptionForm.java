@@ -77,8 +77,10 @@ public class InscriptionForm {
 	}
 	
 	
-	private void validationEmail(String email) {
-		//
+	private void validationEmail(String email) throws Exception {
+		if(email !=null && !email.matches("([^.@]+) (\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)")) {
+			throw new Exception("Merci de saisir une adresse mail valide");
+		}
 	}
 	
 	private void setErreur(String champ, String message) {

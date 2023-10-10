@@ -5,8 +5,10 @@ import java.util.List;
 public class Utilisateurs {
 	private String nom;
 	private String motDePasse;
-	private List<Evaluations> evaluations;
 	private String email;
+	private List<Evaluations> evaluations;
+	private List<Objectifs> objectifs;
+	
 	public String getEmail() {
 		return email;
 	}
@@ -37,5 +39,5 @@ public class Utilisateurs {
 	public void setObjectifs(List<Objectifs> objectifs) {
 		this.objectifs = objectifs;
 	}
-	private List<Objectifs> objectifs;
+	
 }

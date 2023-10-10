@@ -33,7 +33,8 @@ public class Inscription extends HttpServlet {
 		req.setAttribute(ATT_FORM, form);
 		req.setAttribute(ATT_USER, utilisateur);
 		
-		this.getServletContext().getRequestDispatcher(VUE).forward(req, resp);
+		//this.getServletContext().getRequestDispatcher(VUE).forward(req, resp);
+		resp.getWriter().write("Reponse pour la methode GET");
 	}
 
 }

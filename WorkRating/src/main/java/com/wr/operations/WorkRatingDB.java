@@ -5,6 +5,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -22,6 +23,7 @@ public class WorkRatingDB {
 	private ResultSetMetaData resultMeta;
 	private Connection connection;
 	private Statement statement;
+	private PreparedStatement preparedStatement;
 	
 	public WorkRatingDB() throws ClassNotFoundException { 
 		Class.forName(dataConfig.getJdbcDriver());
@@ -34,8 +36,33 @@ public class WorkRatingDB {
 		statement = connection.createStatement();
 	}
 	
-	public void closeDB(){
+	public void closeDB() throws Exception{
 		
+			if(!result.isClosed())
+				result.close();
+			else
+			    throw new Exception("result already closed!");
+
+			
+			if(!statement.isClosed()) 
+				statement.close();
+			else
+				throw new Exception("statement already closed!");
+		
+			if(!connection.isClosed())
+				connection.close();
+			else
+				throw new Exception("connection already closed!");
+			
+	}
+	
+	public void ajoutUtilisateur(String nom, String motDePasse, String email) throws SQLException {
+		sql = "INSERT INTO nomTable (nom, email, motDePasse) VALUES (?,?,?)";
+		preparedStatement = connection.prepareStatement(sql);
+		preparedStatement.setString(1, nom);
+		preparedStatement.setString(2, email);
+		preparedStatement.setString(3, motDePasse);
+		preparedStatement.executeUpdate();
 	}
 
 }

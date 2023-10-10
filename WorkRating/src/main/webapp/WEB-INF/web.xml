@@ -33,4 +33,15 @@
   	<param-value>jdbc:mysql://localhost:3306/wrdb</param-value>
   </context-param>
   
+  <context-param>
+  	<param-name>jdbc-driver</param-name>
+  	<param-value>com.mysql.cj.jdbc.Driver</param-value>
+  </context-param>
+  
+  <context-param>
+  	<param-name>db-user</param-name>
+  	<param-value>admin</param-value>
+  </context-param>
+  
+  
 </web-app>

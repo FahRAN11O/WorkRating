@@ -11,6 +11,7 @@ public class InscriptionForm {
 	private static final String CHAMP_NOM = "nom";
 	private static final String CHAMP_PASS = "motdepasse";
 	private static final String CHAMP_CONF = "confirmation";
+	private static final String CHAMP_EMAIL = "email";
 	
 	private String resultat;
 	private Map<String, String> erreurs = new HashMap<>();
@@ -26,6 +27,7 @@ public class InscriptionForm {
 		String nom = getValeurChamp(request, CHAMP_NOM);
 		String motDePasse = getValeurChamp(request, CHAMP_PASS);
 		String confirmation = getValeurChamp(request, CHAMP_CONF);
+		String email = getValeurChamp(request, CHAMP_EMAIL);
 		
 		Utilisateurs utilisateur = new Utilisateurs();
 		
@@ -44,6 +46,14 @@ public class InscriptionForm {
 			setErreur(CHAMP_CONF, null);
 		}
 		utilisateur.setMotDePasse(motDePasse);
+		
+		try {
+			validationEmail(email);
+		} catch (Exception e) {
+			setErreur(CHAMP_EMAIL, e.getMessage());
+		}
+		utilisateur.setEmail(email);
+		
 		
 		if(erreurs.isEmpty()) {
 			resultat = "succès de l'inscriprtion";
@@ -96,5 +106,4 @@ public class InscriptionForm {
 			return valeur;
 		}
 	}
-	
 }

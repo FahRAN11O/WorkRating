@@ -1,9 +1,17 @@
 package com.wr.servlets;
 
+import java.net.http.HttpRequest;
+
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class DataConfig extends HttpServlet{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String nomParametreDriver= "jdbc-driver";
 	private String nomParametreUrl = "db-url";
 	private String nomParametreUser = "db-user";
@@ -13,10 +21,11 @@ public class DataConfig extends HttpServlet{
 	private String jdbcUser;
 	private String jdbcUrl;
 	
-	public DataConfig() {
-		setJdbcDriver(getServletContext().getInitParameter(nomParametreDriver));
-		setJdbcUrl(getServletContext().getInitParameter(nomParametreUrl));
-		setJdbcUser(getServletContext().getInitParameter(nomParametreUser));
+	public DataConfig(HttpServletRequest req) {
+		setJdbcDriver(req.getServletContext().getInitParameter(nomParametreDriver));
+		setJdbcUrl(req.getServletContext().getInitParameter(nomParametreUrl));
+		setJdbcUser(req.getServletContext().getInitParameter(nomParametreUser));
+		
 	}
 
 	public String getJdbcDriver() {

@@ -6,6 +6,8 @@ public class Chemins {
 	
 	private String nom;
 	private Date temps;
+	private String etat;
+
 	public String getNom() {
 		return nom;
 	}
@@ -24,6 +26,5 @@ public class Chemins {
 	public void setEtat(String etat) {
 		this.etat = etat;
 	}
-	private String etat;
 	
 }

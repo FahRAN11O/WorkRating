@@ -27,14 +27,24 @@ public class Inscription extends HttpServlet {
 		InscriptionForm form = new InscriptionForm();
 		
 		/*Appel au traitement et validation de la requête, et récuperation du bean en resultant*/
-		Utilisateurs utilisateur = form.inscrireUtilisateur(req);
+		Utilisateurs utilisateur;
+		try {
+			utilisateur = form.inscrireUtilisateur(req);
+			req.setAttribute(ATT_FORM, form);
+			req.setAttribute(ATT_USER, utilisateur);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		/*Stockage du formulaire et du bean dans l'objet request*/
-		req.setAttribute(ATT_FORM, form);
-		req.setAttribute(ATT_USER, utilisateur);
+		
 		
 		//this.getServletContext().getRequestDispatcher(VUE).forward(req, resp);
-		resp.getWriter().write("Reponse pour la methode GET");
+		
+		String data = req.getParameter("data1");
+		
+		resp.getWriter().write("Reponse pour la methode POST data ="+new DataConfig(req).getJdbcDriver());
 	}
 
 }

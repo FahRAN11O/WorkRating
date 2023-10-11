@@ -1,11 +1,14 @@
 package com.wr.forms;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import com.wr.models.Utilisateurs;
+import com.wr.operations.WorkRatingDB;
+import com.wr.servlets.DataConfig;
 
 public class InscriptionForm {
 	private static final String CHAMP_NOM = "nom";
@@ -23,7 +26,9 @@ public class InscriptionForm {
 		return erreurs;
 	}
 	
-	public Utilisateurs inscrireUtilisateur(HttpServletRequest request) {
+	public Utilisateurs inscrireUtilisateur(HttpServletRequest request) throws Exception {
+		DataConfig dataConfig = new DataConfig(request);
+		WorkRatingDB workRatingDb = new WorkRatingDB();
 		String nom = getValeurChamp(request, CHAMP_NOM);
 		String motDePasse = getValeurChamp(request, CHAMP_PASS);
 		String confirmation = getValeurChamp(request, CHAMP_CONF);
@@ -56,6 +61,8 @@ public class InscriptionForm {
 		
 		
 		if(erreurs.isEmpty()) {
+			workRatingDb.setRequest(request);
+			workRatingDb.ajoutUtilisateur(utilisateur.getNom(), utilisateur.getMotDePasse(), utilisateur.getEmail());
 			resultat = "succès de l'inscriprtion";
 		} else {
 			resultat = "Echec de l'inscription";

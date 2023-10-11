@@ -11,11 +11,14 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.wr.servlets.DataConfig;
 
 
 public class WorkRatingDB {
 	String sql;
+	HttpServletRequest request;
 	
 	private DataConfig dataConfig;
 	
@@ -25,7 +28,18 @@ public class WorkRatingDB {
 	private Statement statement;
 	private PreparedStatement preparedStatement;
 	
+
+	public HttpServletRequest getRequest() {
+		return request;
+	}
+
+	public void setRequest(HttpServletRequest request) {
+		this.request = request;
+	}
+
+	
 	public WorkRatingDB() throws ClassNotFoundException { 
+		 dataConfig = new DataConfig(getRequest());
 		Class.forName(dataConfig.getJdbcDriver());
 		System.out.println("trynna connect to the database...");
 	}
@@ -56,13 +70,14 @@ public class WorkRatingDB {
 			
 	}
 	
-	public void ajoutUtilisateur(String nom, String motDePasse, String email) throws SQLException {
-		sql = "INSERT INTO nomTable (nom, email, motDePasse) VALUES (?,?,?)";
+	public void ajoutUtilisateur(String nom, String motDePasse, String email) throws Exception {
+		sql = "INSERT INTO utilisateur (nom, email, motDePasse) VALUES (?,?,?)";
 		preparedStatement = connection.prepareStatement(sql);
 		preparedStatement.setString(1, nom);
 		preparedStatement.setString(2, email);
 		preparedStatement.setString(3, motDePasse);
 		preparedStatement.executeUpdate();
+		closeDB();
 	}
 
 }

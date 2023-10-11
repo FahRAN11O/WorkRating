@@ -28,9 +28,13 @@
   	<url-pattern>/connexion</url-pattern>
   </servlet-mapping>
   
+  <listener>
+  	<listener-class>com.wr.servlets.DataConfig</listener-class>
+  </listener>
+  
   <context-param>
   	<param-name>db-url</param-name>
-  	<param-value>jdbc:mysql://localhost:3306/wrdb</param-value>
+  	<param-value>jdbc:mysql://localhost:3306/workratingdb</param-value>
   </context-param>
   
   <context-param>
@@ -40,7 +44,7 @@
   
   <context-param>
   	<param-name>db-user</param-name>
-  	<param-value>admin</param-value>
+  	<param-value>root</param-value>
   </context-param>
   
   

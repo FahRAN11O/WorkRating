@@ -27,8 +27,8 @@ public class InscriptionForm {
 	}
 	
 	public Utilisateurs inscrireUtilisateur(HttpServletRequest request) throws Exception {
-		DataConfig dataConfig = new DataConfig(request);
-		WorkRatingDB workRatingDb = new WorkRatingDB();
+		DataConfig dataConfig = new DataConfig();
+		//WorkRatingDB workRatingDb = new WorkRatingDB();
 		String nom = getValeurChamp(request, CHAMP_NOM);
 		String motDePasse = getValeurChamp(request, CHAMP_PASS);
 		String confirmation = getValeurChamp(request, CHAMP_CONF);
@@ -61,8 +61,8 @@ public class InscriptionForm {
 		
 		
 		if(erreurs.isEmpty()) {
-			workRatingDb.setRequest(request);
-			workRatingDb.ajoutUtilisateur(utilisateur.getNom(), utilisateur.getMotDePasse(), utilisateur.getEmail());
+			//workRatingDb.setRequest(request);
+			//workRatingDb.ajoutUtilisateur(utilisateur.getNom(), utilisateur.getMotDePasse(), utilisateur.getEmail());
 			resultat = "succès de l'inscriprtion";
 		} else {
 			resultat = "Echec de l'inscription";

@@ -9,12 +9,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.wr.forms.InscriptionForm;
 import com.wr.models.Utilisateurs;
+import com.wr.operations.DataConfigWay;
 
 public class Inscription extends HttpServlet {
 	public static final String ATT_USER = "utilisateur";
 	public static final String ATT_FORM = "form";
 	public static final String VUE = "/WEB-INF/inscription.jsp";
 	
+	
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		/*Affichage de la page d'inscription*/
@@ -44,7 +47,8 @@ public class Inscription extends HttpServlet {
 		
 		String data = req.getParameter("data1");
 		
-		resp.getWriter().write("Reponse pour la methode POST data ="+new DataConfig(req).getJdbcDriver());
+		
+		resp.getWriter().write("Reponse pour la methode POST data =");
 	}
 
 }

@@ -2,11 +2,16 @@ package com.wr.servlets;
 
 import java.net.http.HttpRequest;
 
+import javax.servlet.ServletContext;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class DataConfig extends HttpServlet{
+import com.wr.operations.DataConfigWay;
+
+public class DataConfig implements ServletContextListener{
 	
 	/**
 	 * 
@@ -21,13 +26,28 @@ public class DataConfig extends HttpServlet{
 	private String jdbcUser;
 	private String jdbcUrl;
 	
-	public DataConfig(HttpServletRequest req) {
-		setJdbcDriver(req.getServletContext().getInitParameter(nomParametreDriver));
-		setJdbcUrl(req.getServletContext().getInitParameter(nomParametreUrl));
-		setJdbcUser(req.getServletContext().getInitParameter(nomParametreUser));
+	DataConfigWay dataConfigway;
+
+	public DataConfig(DataConfigWay dataConfigway) {
+		this.dataConfigway = dataConfigway;
+	}
+
+	@Override
+	public void contextDestroyed(ServletContextEvent sce) {
+		// TODO Auto-generated method stub
 		
 	}
 
+	@Override
+	public void contextInitialized(ServletContextEvent sce) {
+		ServletContext context = sce.getServletContext();
+		
+		setJdbcDriver(context.getInitParameter(nomParametreDriver));
+		setJdbcUrl(context.getInitParameter(nomParametreUrl));
+		setJdbcUser(context.getInitParameter(nomParametreUser));
+		
+	}
+	
 	public String getJdbcDriver() {
 		return jdbcDriver;
 	}

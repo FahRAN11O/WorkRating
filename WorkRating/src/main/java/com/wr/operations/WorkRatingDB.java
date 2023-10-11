@@ -11,6 +11,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.servlet.ServletContextEvent;
 import javax.servlet.http.HttpServletRequest;
 
 import com.wr.servlets.DataConfig;
@@ -39,11 +40,19 @@ public class WorkRatingDB {
 
 	
 	public WorkRatingDB() throws ClassNotFoundException { 
-		 dataConfig = new DataConfig(getRequest());
+		 dataConfig = new DataConfig();
 		Class.forName(dataConfig.getJdbcDriver());
 		System.out.println("trynna connect to the database...");
 	}
 	
+	public Connection getConnection() {
+		return connection;
+	}
+
+	public void setConnection(Connection connection) {
+		this.connection = connection;
+	}
+
 	public void connectDB() throws SQLException {
 		connection = DriverManager.getConnection(dataConfig.getJdbcUrl(), dataConfig.getJdbcUser(), "");
 		System.out.println("connection established!");

@@ -11,17 +11,17 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import com.mysql.jdbc.Driver;
+
 import javax.servlet.ServletContextEvent;
 import javax.servlet.http.HttpServletRequest;
 
+import com.wr.models.Utilisateurs;
 import com.wr.servlets.DataConfig;
-
 
 public class WorkRatingDB {
 	String sql;
 	HttpServletRequest request;
-	
-	private DataConfig dataConfig;
 	
 	private ResultSet result;
 	private ResultSetMetaData resultMeta;
@@ -29,21 +29,35 @@ public class WorkRatingDB {
 	private Statement statement;
 	private PreparedStatement preparedStatement;
 	
-
-	public HttpServletRequest getRequest() {
-		return request;
-	}
-
-	public void setRequest(HttpServletRequest request) {
-		this.request = request;
-	}
-
+	private String jdbcDriver;
+	private String jdbcUser;
+	private String jdbcUrl;
 	
-	public WorkRatingDB() throws ClassNotFoundException { 
-		 dataConfig = new DataConfig();
-		Class.forName(dataConfig.getJdbcDriver());
-		System.out.println("trynna connect to the database...");
+
+	public String getJdbcDriver() {
+		return jdbcDriver;
 	}
+
+
+	public String getJdbcUser() {
+		return jdbcUser;
+	}
+
+	public void setJdbcDriver(String jdbcDriver) {
+		this.jdbcDriver = jdbcDriver;
+	}
+	
+	public void setJdbcUser(String jdbcUser) {
+		this.jdbcUser = jdbcUser;
+	}
+
+	public String getJdbcUrl() {
+		return jdbcUrl;
+	}
+
+	public void setJdbcUrl(String jdbcUrl) {
+		this.jdbcUrl = jdbcUrl;
+	}	
 	
 	public Connection getConnection() {
 		return connection;
@@ -53,33 +67,48 @@ public class WorkRatingDB {
 		this.connection = connection;
 	}
 
-	public void connectDB() throws SQLException {
-		connection = DriverManager.getConnection(dataConfig.getJdbcUrl(), dataConfig.getJdbcUser(), "");
+	public void connectDB() throws SQLException, ClassNotFoundException {
+		System.out.println("trynna connect to the database...111");
+		Class.forName(getJdbcDriver());
+		connection = DriverManager.getConnection(getJdbcUrl(), getJdbcUser(), "");
 		System.out.println("connection established!");
 		statement = connection.createStatement();
 	}
 	
-	public void closeDB() throws Exception{
+	private void closeResult() throws SQLException, Exception {
+		if(!result.isClosed())
+			result.close();
+		else
+		    throw new Exception("result already closed!");
 		
-			if(!result.isClosed())
-				result.close();
-			else
-			    throw new Exception("result already closed!");
-
-			
-			if(!statement.isClosed()) 
-				statement.close();
-			else
-				throw new Exception("statement already closed!");
-		
-			if(!connection.isClosed())
-				connection.close();
-			else
-				throw new Exception("connection already closed!");
-			
 	}
 	
-	public void ajoutUtilisateur(String nom, String motDePasse, String email) throws Exception {
+	private void closeStatement() throws SQLException, Exception {
+		if(!statement.isClosed()) 
+			statement.close();
+		else
+			throw new Exception("statement already closed!");
+		
+	}
+	
+	private void closeConnection() throws SQLException, Exception {
+		if(!connection.isClosed())
+			connection.close();
+		else
+			throw new Exception("connection already closed!");
+		
+	}
+	
+	public void closeDB() throws Exception{
+		closeResult();
+		closeStatement();
+		closeConnection();
+	}
+	
+	public void ajoutUtilisateur(Utilisateurs utilisateur) throws Exception {
+		String nom = utilisateur.getNom();
+		String motDePasse = utilisateur.getMotDePasse();
+		String email = utilisateur.getEmail();
 		sql = "INSERT INTO utilisateur (nom, email, motDePasse) VALUES (?,?,?)";
 		preparedStatement = connection.prepareStatement(sql);
 		preparedStatement.setString(1, nom);

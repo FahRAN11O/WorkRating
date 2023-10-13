@@ -1,15 +1,20 @@
 package com.wr.servlets;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.mysql.jdbc.Driver;
+
+
 import com.wr.forms.InscriptionForm;
 import com.wr.models.Utilisateurs;
 import com.wr.operations.DataConfigWay;
+import com.wr.operations.WorkRatingDB;
 
 public class Inscription extends HttpServlet {
 	public static final String ATT_USER = "utilisateur";
@@ -21,6 +26,22 @@ public class Inscription extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		/*Affichage de la page d'inscription*/
+		DataConfig dataConfig = new DataConfig();
+		String jdbcDriver = getServletContext().getInitParameter(dataConfig.getNomParametreDriver());
+		String jdbcUrl = getServletContext().getInitParameter(dataConfig.getNomParametreUrl());
+		String jdbcUser = getServletContext().getInitParameter(dataConfig.getNomParametreUser());
+		
+		WorkRatingDB workRatingDb = new WorkRatingDB();
+		workRatingDb.setJdbcDriver(jdbcDriver);
+		workRatingDb.setJdbcUrl(jdbcUrl);
+		workRatingDb.setJdbcUser(jdbcUser);
+		try {
+			workRatingDb.connectDB();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		this.getServletContext().getRequestDispatcher(VUE).forward(req, resp);
 	}
 	

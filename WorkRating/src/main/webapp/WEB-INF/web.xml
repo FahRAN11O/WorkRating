@@ -28,10 +28,6 @@
   	<url-pattern>/connexion</url-pattern>
   </servlet-mapping>
   
-  <listener>
-  	<listener-class>com.wr.servlets.DataConfig</listener-class>
-  </listener>
-  
   <context-param>
   	<param-name>db-url</param-name>
   	<param-value>jdbc:mysql://localhost:3306/workratingdb</param-value>
@@ -39,7 +35,7 @@
   
   <context-param>
   	<param-name>jdbc-driver</param-name>
-  	<param-value>com.mysql.cj.jdbc.Driver</param-value>
+  	<param-value>com.mysql.jdbc.Driver</param-value>
   </context-param>
   
   <context-param>

@@ -17,7 +17,6 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.http.HttpServletRequest;
 
 import com.wr.models.Utilisateurs;
-import com.wr.servlets.DataConfig;
 
 public class WorkRatingDB {
 	String sql;
@@ -109,13 +108,12 @@ public class WorkRatingDB {
 		String nom = utilisateur.getNom();
 		String motDePasse = utilisateur.getMotDePasse();
 		String email = utilisateur.getEmail();
-		sql = "INSERT INTO utilisateur (nom, email, motDePasse) VALUES (?,?,?)";
+		sql = "INSERT INTO utilisateurs (nom, email, mot_de_passe) VALUES (?,?,?)";
 		preparedStatement = connection.prepareStatement(sql);
 		preparedStatement.setString(1, nom);
 		preparedStatement.setString(2, email);
 		preparedStatement.setString(3, motDePasse);
 		preparedStatement.executeUpdate();
-		closeDB();
+		System.out.println("Utilisateur Enregistré!");
 	}
-
 }

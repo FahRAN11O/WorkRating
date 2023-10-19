@@ -20,27 +20,17 @@ public class Inscription extends HttpServlet {
 	public static final String ATT_USER = "utilisateur";
 	public static final String ATT_FORM = "form";
 	public static final String VUE = "/WEB-INF/inscription.jsp";
+	private static final String NOM_PARAMETRE_DRIVER_DATABASE = "jdbc-driver";
+	private static final String NOM_PARAMETRE_URL_DATABASE ="db-url";
+	private static final String NOM_PARAMETRE_USER_DATABASE ="db-user";
 	
+	private static WorkRatingDB workRatingDb = new WorkRatingDB();
 	
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		/*Affichage de la page d'inscription*/
-		DataConfig dataConfig = new DataConfig();
-		String jdbcDriver = getServletContext().getInitParameter(dataConfig.getNomParametreDriver());
-		String jdbcUrl = getServletContext().getInitParameter(dataConfig.getNomParametreUrl());
-		String jdbcUser = getServletContext().getInitParameter(dataConfig.getNomParametreUser());
 		
-		WorkRatingDB workRatingDb = new WorkRatingDB();
-		workRatingDb.setJdbcDriver(jdbcDriver);
-		workRatingDb.setJdbcUrl(jdbcUrl);
-		workRatingDb.setJdbcUser(jdbcUser);
-		try {
-			workRatingDb.connectDB();
-		} catch (ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
 		this.getServletContext().getRequestDispatcher(VUE).forward(req, resp);
 	}
@@ -56,20 +46,35 @@ public class Inscription extends HttpServlet {
 			utilisateur = form.inscrireUtilisateur(req);
 			req.setAttribute(ATT_FORM, form);
 			req.setAttribute(ATT_USER, utilisateur);
+			dbInteraction();
+			workRatingDb.ajoutUtilisateur(utilisateur);
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+						
+		String nomData = req.getParameter("nom");
+		String emailData = req.getParameter("email");
+		String motdepasseData = req.getParameter("motdepasse");
 		
-		/*Stockage du formulaire et du bean dans l'objet request*/
-		
-		
-		//this.getServletContext().getRequestDispatcher(VUE).forward(req, resp);
-		
-		String data = req.getParameter("data1");
-		
-		
-		resp.getWriter().write("Reponse pour la methode POST data =");
+		resp.getWriter().write("Reponse pour la methode POST nom = "+nomData +", email = "+emailData+", motDepasse = "+motdepasseData+"!");
 	}
 
+	
+	public void dbInteraction() {
+		String jdbcDriver = getServletContext().getInitParameter(NOM_PARAMETRE_DRIVER_DATABASE);
+		String jdbcUrl = getServletContext().getInitParameter(NOM_PARAMETRE_URL_DATABASE);
+		String jdbcUser = getServletContext().getInitParameter(NOM_PARAMETRE_USER_DATABASE);
+		
+		workRatingDb.setJdbcDriver(jdbcDriver);
+		workRatingDb.setJdbcUrl(jdbcUrl);
+		workRatingDb.setJdbcUser(jdbcUser);
+		try {
+			workRatingDb.connectDB();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

@@ -2,12 +2,16 @@ package com.wr.models;
 
 import java.util.List;
 
+import com.wr.operations.DataCrypter;
+
 public class Utilisateurs {
 	private String nom;
 	private String motDePasse;
 	private String email;
 	private List<Evaluations> evaluations;
 	private List<Objectifs> objectifs;
+	
+	private DataCrypter dataCrypter ;
 	
 	public String getEmail() {
 		return email;
@@ -25,7 +29,9 @@ public class Utilisateurs {
 		return motDePasse;
 	}
 	public void setMotDePasse(String motDePasse) {
-		this.motDePasse = motDePasse;
+		dataCrypter = new DataCrypter();
+		String motDePaseCrypted=dataCrypter.crypter(motDePasse);
+		this.motDePasse = motDePaseCrypted;
 	}
 	public List<Evaluations> getEvaluations() {
 		return evaluations;

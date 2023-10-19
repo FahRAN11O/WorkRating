@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.wr.models.Utilisateurs;
 import com.wr.operations.WorkRatingDB;
-import com.wr.servlets.DataConfig;
 
 public class InscriptionForm {
 	private static final String CHAMP_NOM = "nom";

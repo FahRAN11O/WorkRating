@@ -1,6 +1,7 @@
 package com.wr.servlets;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -10,12 +11,20 @@ import javax.servlet.http.HttpSession;
 
 import com.wr.forms.ConnexionForm;
 import com.wr.models.Utilisateurs;
+import com.wr.operations.WorkRatingDB;
 
 public class Connexion extends HttpServlet {
 	public static final String ATT_USER = "utilisateur";
 	public static final String ATT_FORM = "form";
 	public static final String ATT_SESSION_USER = "sessionUtilisateur";
 	public static final String VUE = "/WEB-INF/connexion.jsp";
+	
+	private static final String NOM_PARAMETRE_DRIVER_DATABASE = "jdbc-driver";
+	private static final String NOM_PARAMETRE_URL_DATABASE ="db-url";
+	private static final String NOM_PARAMETRE_USER_DATABASE ="db-user";
+	
+	private static WorkRatingDB workRatingDb = new WorkRatingDB();
+	
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -59,7 +68,24 @@ public class Connexion extends HttpServlet {
 	}
 	
 	private boolean authenticate(String username, String password) {
+		
 		return true;
+	}
+	
+	public void dbInteraction() {
+		String jdbcDriver = getServletContext().getInitParameter(NOM_PARAMETRE_DRIVER_DATABASE);
+		String jdbcUrl = getServletContext().getInitParameter(NOM_PARAMETRE_URL_DATABASE);
+		String jdbcUser = getServletContext().getInitParameter(NOM_PARAMETRE_USER_DATABASE);
+		
+		workRatingDb.setJdbcDriver(jdbcDriver);
+		workRatingDb.setJdbcUrl(jdbcUrl);
+		workRatingDb.setJdbcUser(jdbcUser);
+		try {
+			workRatingDb.connectDB();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
 

@@ -116,4 +116,14 @@ public class WorkRatingDB {
 		preparedStatement.executeUpdate();
 		System.out.println("Utilisateur Enregistré!");
 	}
+	
+	public boolean connecteUtilisateur(Utilisateurs utilisateur) throws SQLException {
+		String nom = utilisateur.getNom();
+		String motDePasse = null;
+		sql = "SELECT MotDePasse FROM Utilisateur where Nom = "+"'"+nom+"'";
+		statement.executeQuery(sql);
+		//Ajouter de script pour obtenir le mot de passe venant de la base de donnée
+		
+		return new DataCrypter().verifierCrypt(utilisateur.getMotDePasse(), motDePasse);
+	}
 }

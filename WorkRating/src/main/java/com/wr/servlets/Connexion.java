@@ -27,23 +27,28 @@ public class Connexion extends HttpServlet {
 		/*Preparation de l'objet formulaire*/
 		ConnexionForm form = new ConnexionForm();
 		/*Traitement de la requête et récupération du bean en résultant*/
-		Utilisateurs utilisateur = form.connecterUtilisateur(req);
-		
-		/*Recuperation de la session depuis la requête*/
-		HttpSession session = req.getSession();
-		
-		/*
-		 * Si aucune erreur de validation n'a eu lieu, alors ajout du bean
-		 * Utilisateur à la session, sinon suppression du bean de la session*/
-		if(form.getErreurs().isEmpty()) {
-			session.setAttribute(ATT_SESSION_USER, utilisateur);
-		}else {
-			session.setAttribute(ATT_SESSION_USER, null);
+		Utilisateurs utilisateur;
+		try {
+			utilisateur = form.connecterUtilisateur(req);
+			/*Recuperation de la session depuis la requête*/
+			HttpSession session = req.getSession();
+			
+			/*
+			 * Si aucune erreur de validation n'a eu lieu, alors ajout du bean
+			 * Utilisateur à la session, sinon suppression du bean de la session*/
+			if(form.getErreurs().isEmpty()) {
+				session.setAttribute(ATT_SESSION_USER, utilisateur);
+			}else {
+				session.setAttribute(ATT_SESSION_USER, null);
+			}
+			
+			/*Stockage du formulaire et du bean dans l'objet request*/
+			req.setAttribute(ATT_FORM, form);
+			req.setAttribute(ATT_USER, utilisateur);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		
-		/*Stockage du formulaire et du bean dans l'objet request*/
-		req.setAttribute(ATT_FORM, form);
-		req.setAttribute(ATT_USER, utilisateur);
 		
 		this.getServletContext().getRequestDispatcher(VUE).forward(req, resp);
 		

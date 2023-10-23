@@ -21,7 +21,7 @@ public class ConnexionForm {
 		return erreurs;
 	}
 	
-	public Utilisateurs connecterUtilisateur(HttpServletRequest request) {
+	public Utilisateurs connecterUtilisateur(HttpServletRequest request) throws Exception {
 		/*Récupération des champs du formulaire*/
 		String pseudo = getValeurChamp(request, CHAMP_PSEUDO);
 		String motDePasse = getValeurChamp(request, CHAMP_PASS);
@@ -29,11 +29,21 @@ public class ConnexionForm {
 		Utilisateurs utilisateur = new Utilisateurs();
 		
 		try {
-			
+			validationPseudo(pseudo, utilisateur);
 		} catch (Exception e) {
-			
+			setErreur(pseudo, e.getMessage());
 		}
-		return null;
+		utilisateur.setNom(pseudo);
+		
+		try {
+			validationMotDepasse(motDePasse, utilisateur);;
+		} catch (Exception e) {
+			setErreur(pseudo, e.getMessage());
+		}
+		utilisateur.setNom(pseudo);
+		
+		
+		return utilisateur;
 	}
 	
 	private void validationPseudo(String pseudo, Utilisateurs utilisateur) throws Exception {
@@ -50,6 +60,10 @@ public class ConnexionForm {
 		} else if(!motDePasse.equals(utilisateur.getMotDePasse())) {
 			throw new Exception("Votre mot de passe est incorrect!");
 		}
+	}
+	
+	private void setErreur(String champ, String message) {
+		erreurs.put(champ, message);
 	}
 	
 	private static String getValeurChamp(HttpServletRequest request, String nomChamp) {

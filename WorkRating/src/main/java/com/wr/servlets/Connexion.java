@@ -24,6 +24,10 @@ public class Connexion extends HttpServlet {
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String username = req.getParameter("nom");
+		String password = req.getParameter("motdepasse");
+		
+		
 		/*Preparation de l'objet formulaire*/
 		ConnexionForm form = new ConnexionForm();
 		/*Traitement de la requête et récupération du bean en résultant*/
@@ -52,6 +56,10 @@ public class Connexion extends HttpServlet {
 		
 		this.getServletContext().getRequestDispatcher(VUE).forward(req, resp);
 		
+	}
+	
+	private boolean authenticate(String username, String password) {
+		return true;
 	}
 }
 

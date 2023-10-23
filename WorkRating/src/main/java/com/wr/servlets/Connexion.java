@@ -14,10 +14,12 @@ import com.wr.models.Utilisateurs;
 import com.wr.operations.WorkRatingDB;
 
 public class Connexion extends HttpServlet {
-	public static final String ATT_USER = "utilisateur";
-	public static final String ATT_FORM = "form";
-	public static final String ATT_SESSION_USER = "sessionUtilisateur";
-	public static final String VUE = "/WEB-INF/connexion.jsp";
+	private static final String ATT_USER = "utilisateur";
+	private static final String ATT_FORM = "form";
+	private static final String ATT_SESSION_USER = "sessionUtilisateur";
+	private static final String VUE = "/WEB-INF/connexion.jsp";
+	private static final String VUE_ACCUEIL_UTILISATEUR="/WEB-INF/accueil";
+	
 	
 	private static final String NOM_PARAMETRE_DRIVER_DATABASE = "jdbc-driver";
 	private static final String NOM_PARAMETRE_URL_DATABASE ="db-url";
@@ -33,9 +35,9 @@ public class Connexion extends HttpServlet {
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		boolean motDePasseCorrecte;
 		String username = req.getParameter("nom");
 		String password = req.getParameter("motdepasse");
-		
 		
 		/*Preparation de l'objet formulaire*/
 		ConnexionForm form = new ConnexionForm();
@@ -58,12 +60,22 @@ public class Connexion extends HttpServlet {
 			/*Stockage du formulaire et du bean dans l'objet request*/
 			req.setAttribute(ATT_FORM, form);
 			req.setAttribute(ATT_USER, utilisateur);
+			dbInteraction();
+			motDePasseCorrecte = workRatingDb.validationMotDePasse(utilisateur);
+			if(motDePasseCorrecte) {
+				this.getServletContext().getRequestDispatcher(VUE_ACCUEIL_UTILISATEUR).forward(req, resp);
+				resp.getWriter().write("NOM="+utilisateur.getNom());
+			}else {
+				this.getServletContext().getRequestDispatcher(VUE).forward(req, resp);
+
+			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			this.getServletContext().getRequestDispatcher(VUE).forward(req, resp);
+
 		}
 		
-		this.getServletContext().getRequestDispatcher(VUE).forward(req, resp);
 		
 	}
 	

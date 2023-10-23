@@ -31,7 +31,18 @@ public class WorkRatingDB {
 	private String jdbcDriver;
 	private String jdbcUser;
 	private String jdbcUrl;
+	String motDePasse ;
 	
+
+	public String getMotDePasse() {
+		return motDePasse;
+	}
+
+
+	public void setMotDePasse(String motDePasse) {
+		this.motDePasse = motDePasse;
+	}
+
 
 	public String getJdbcDriver() {
 		return jdbcDriver;
@@ -117,13 +128,14 @@ public class WorkRatingDB {
 		System.out.println("Utilisateur Enregistré!");
 	}
 	
-	public boolean connecteUtilisateur(Utilisateurs utilisateur) throws SQLException {
+	public boolean validationMotDePasse(Utilisateurs utilisateur) throws SQLException {
 		String nom = utilisateur.getNom();
-		String motDePasse = null;
-		sql = "SELECT MotDePasse FROM Utilisateur where Nom = "+"'"+nom+"'";
-		statement.executeQuery(sql);
+		sql = "SELECT mot_de_passe FROM Utilisateurs where nom = "+"'"+nom+"'";
+		result = statement.executeQuery(sql);
+		if(result.next()) {
+			setMotDePasse(result.getObject("mot_de_passe").toString()); 
+		}
 		//Ajouter de script pour obtenir le mot de passe venant de la base de donnée
-		
-		return new DataCrypter().verifierCrypt(utilisateur.getMotDePasse(), motDePasse);
+		return new DataCrypter().verifierCrypt(getMotDePasse(), utilisateur.getMotDePasse());
 	}
 }

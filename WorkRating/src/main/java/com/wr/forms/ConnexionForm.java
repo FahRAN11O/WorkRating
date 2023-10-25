@@ -29,36 +29,32 @@ public class ConnexionForm {
 		Utilisateurs utilisateur = new Utilisateurs();
 		
 		try {
-			validationPseudo(pseudo, utilisateur);
+			validationPseudo(pseudo);
 		} catch (Exception e) {
 			setErreur(pseudo, e.getMessage());
 		}
 		utilisateur.setNom(pseudo);
 		
 		try {
-			validationMotDepasse(motDePasse, utilisateur);;
+			validationMotDepasse(motDePasse);;
 		} catch (Exception e) {
 			setErreur(pseudo, e.getMessage());
 		}
-		utilisateur.setNom(pseudo);
+		utilisateur.setMotDePasseConnexion(motDePasse);
 		
 		
 		return utilisateur;
 	}
 	
-	private void validationPseudo(String pseudo, Utilisateurs utilisateur) throws Exception {
+	private void validationPseudo(String pseudo) throws Exception {
 		if(pseudo == null) {
 			throw new Exception("Pseudo invalide, Verifier s'il vous plait!");
-		} else if(!pseudo.equals(utilisateur.getNom())) {
-			throw new Exception("Desolé, l'utilisateur n'existe pas!");
 		}
 	}
 	
-	private void validationMotDepasse(String motDePasse, Utilisateurs utilisateur) throws Exception {
+	private void validationMotDepasse(String motDePasse) throws Exception {
 		if(motDePasse == null) {
 			throw new Exception("Veuillez saisir le mot de passe!");
-		} else if(!motDePasse.equals(utilisateur.getMotDePasse())) {
-			throw new Exception("Votre mot de passe est incorrect!");
 		}
 	}
 	

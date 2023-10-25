@@ -8,6 +8,8 @@ public class Utilisateurs {
 	private String nom;
 	private String motDePasse;
 	private String email;
+	private String motDePasseConnexion;
+	
 	private List<Evaluations> evaluations;
 	private List<Objectifs> objectifs;
 	
@@ -33,6 +35,14 @@ public class Utilisateurs {
 		String motDePaseCrypted=dataCrypter.crypter(motDePasse);
 		this.motDePasse = motDePaseCrypted;
 	}
+	
+	public String getMotDePasseConnexion() {
+		return motDePasseConnexion;
+	}
+	public void setMotDePasseConnexion(String motDePasseConnexion) {
+		this.motDePasseConnexion = motDePasseConnexion;
+	}
+	
 	public List<Evaluations> getEvaluations() {
 		return evaluations;
 	}
@@ -45,5 +55,6 @@ public class Utilisateurs {
 	public void setObjectifs(List<Objectifs> objectifs) {
 		this.objectifs = objectifs;
 	}
+	
 	
 }

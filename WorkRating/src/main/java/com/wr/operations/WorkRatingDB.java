@@ -32,12 +32,12 @@ public class WorkRatingDB {
 	private String jdbcUser;
 	private String jdbcUrl;
 	
-	public String getJdbcDriver() {
+	private String getJdbcDriver() {
 		return jdbcDriver;
 	}
 
 
-	public String getJdbcUser() {
+	private String getJdbcUser() {
 		return jdbcUser;
 	}
 
@@ -49,7 +49,7 @@ public class WorkRatingDB {
 		this.jdbcUser = jdbcUser;
 	}
 
-	public String getJdbcUrl() {
+	private String getJdbcUrl() {
 		return jdbcUrl;
 	}
 
@@ -57,13 +57,6 @@ public class WorkRatingDB {
 		this.jdbcUrl = jdbcUrl;
 	}	
 	
-	public Connection getConnection() {
-		return connection;
-	}
-
-	public void setConnection(Connection connection) {
-		this.connection = connection;
-	}
 
 	public void connectDB() throws SQLException, ClassNotFoundException {
 		System.out.println("trynna connect to the database...111");

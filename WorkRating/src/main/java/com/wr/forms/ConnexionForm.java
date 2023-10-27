@@ -62,6 +62,7 @@ public class ConnexionForm {
 		erreurs.put(champ, message);
 	}
 	
+	
 	private static String getValeurChamp(HttpServletRequest request, String nomChamp) {
 		
 		String valeur = request.getParameter(nomChamp);

@@ -120,7 +120,6 @@ public class WorkRatingDB {
 			mdp=result.getObject("mot_de_passe").toString();
 		}
 		//Ajouter de script pour obtenir le mot de passe venant de la base de donnée
-		return  new DataCrypter().verifierCrypt(utilisateur.getMotDePasseConnexion(),mdp);
-		
+		return  new DataCrypter().verifierCrypt(utilisateur.getMotDePasseConnexion(),mdp);	
 	}
 }

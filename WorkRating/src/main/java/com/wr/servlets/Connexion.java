@@ -79,6 +79,10 @@ public class Connexion extends HttpServlet {
 		
 	}
 	
+	private void ajouterSession(HttpSession session) {
+		
+	}
+	
 	private boolean authenticate(String username, String password) {
 		
 		return true;

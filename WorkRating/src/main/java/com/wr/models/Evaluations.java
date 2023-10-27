@@ -46,6 +46,6 @@ public class Evaluations {
 	}
 
 	public Evaluations(Utilisateurs utilisateur) {
-
+		this.utilisateur = utilisateur;
 	}
 }
